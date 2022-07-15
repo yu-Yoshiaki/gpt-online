@@ -1,38 +1,33 @@
 const https = require("https")
 const express = require("express")
 const app = express()
-
 const PORT = process.env.PORT || 3000
 const TOKEN = process.env.LINE_ACCESS_TOKEN
 
 app.use(express.json())
 app.use(express.urlencoded({
-  extended:true
+  extended: true
 }))
 
-app.get("/",(req,res)=>{
-  res.statusCode(200)
+app.get("/", (req, res) => {
+  res.sendStatus(200)
 })
 
-app.listen(PORT,()=>{
-  console.log(`Example app listening at http://localhost:${PORT}`);
-})
-
-app.post("/webhook",function(req,res){
+app.post("/webhook", function(req, res) {
   res.send("HTTP POST request sent to the webhook URL!")
-
-  if(req.body.events[0].type === "message"){
-
+  // ユーザーがボットにメッセージを送った場合、返信メッセージを送る
+  if (req.body.events[0].type === "message") {
+    // 文字列化したメッセージデータ
     const dataString = JSON.stringify({
       replyToken: req.body.events[0].replyToken,
-      message:[
+      messages: [
         {
           "type": "text",
-          "text": "Hello, User."
+          "text": "Hello, user"
         },
         {
           "type": "text",
-          "text": "May I help you."
+          "text": "May I help you?"
         }
       ]
     })
@@ -70,3 +65,6 @@ app.post("/webhook",function(req,res){
   }
 })
 
+app.listen(PORT, () => {
+  console.log(`Example app listening at http://localhost:${PORT}`)
+})
