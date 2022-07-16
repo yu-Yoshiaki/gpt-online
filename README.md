@@ -1,3 +1,3 @@
 # line-message-test
 
-LineのMessage APIを使ったアプリケーション。
+Line の Message API を使ったアプリケーション。
