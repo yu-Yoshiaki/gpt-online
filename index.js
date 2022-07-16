@@ -27,18 +27,31 @@ app.post("/webhook", (req, res) => {
   if (event.type === "message") {
     if (event.message.text === "予約") {
       messages.push({
-        type: "text",
-        text: "予約受け付けました。",
-      })
+        type:"text",
+        text: "下記から選択してください。",
+        quickReply: {
+          items:[
+            {
+              "type": "action",
+              "action": {
+                "type": "cameraRoll",
+                "label": "Send photo"
+              }
+            },
+            {
+              "type": "action",
+              "action": {
+                "type": "camera",
+                "label": "Open camera"
+              }
+            }
+          ]},
+        })
     } else {
       messages.push(
         {
           type: "text",
-          text: "Hello, user",
-        },
-        {
-          type: "text",
-          text: "May I help you?",
+          text: "何かお困りごとはございますか?",
         }
       )
     }
