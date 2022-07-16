@@ -20,31 +20,28 @@ app.post("/webhook", (req, res)=> {
   res.send("HTTP POST request sent to the webhook URL!")
 
   const event = req.body.events[0]
-  console.log("--------",event);
+  const messages =[]
   // ユーザーがボットにメッセージを送った場合、返信メッセージを送る
   if (event.type === "message") {
-    const messages = ()=>{ 
+    
       if(event.message.text==="予約"){
-        return [
+        messages.push(
           {
             "type":"text",
             "text": "予約受け付けました。"
           }
-        ]
+        )
+      } else {
+        messages.push({
+          "type": "text",
+          "text": "Hello, user"
+        },
+        {
+          "type": "text",
+          "text": "May I help you?"
+        })
       }
-      
-      return [
-      {
-        "type": "text",
-        "text": "Hello, user"
-      },
-      {
-        "type": "text",
-        "text": "May I help you?"
-      }
-    ]
-  }
-  console.log("============",messages);
+      console.log("============",messages);
 
     // リクエストに渡すオプション
     const webhookOptions = {
