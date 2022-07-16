@@ -25,7 +25,6 @@ app.post("/webhook", (req, res)=> {
   if (event.type === "message") {
     const messages = ()=>{ 
       if(event.message.text==="予約"){
-        console.log("----------- 予約");
         return [
           {
             "type":"text",
@@ -45,6 +44,7 @@ app.post("/webhook", (req, res)=> {
       }
     ]
   }
+  console.log("============",messages);
 
     // リクエストに渡すオプション
     const webhookOptions = {
