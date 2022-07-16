@@ -22,41 +22,30 @@ app.post("/webhook", (req, res) => {
   res.send("HTTP POST request sent to the webhook URL!")
 
   const event = req.body.events[0]
-  console.log("-----------",event);
-  // const messages = []
+  const messages = []
   // ユーザーがボットにメッセージを送った場合、返信メッセージを送る
   if (event.type === "message") {
-    // if (event.message.text === "予約") {
-    //   messages.push({
-    //     type: "text",
-    //     text: "予約受け付けました。",
-    //   })
-    // } else {
-    //   messages.push(
-    //     {
-    //       type: "text",
-    //       text: "Hello, user",
-    //     },
-    //     {
-    //       type: "text",
-    //       text: "May I help you?",
-    //     }
-    //   )
-    // }
-    // console.log("============", messages)
+    if (event.message.text === "予約") {
+      messages.push({
+        type: "text",
+        text: "予約受け付けました。",
+      })
+    } else {
+      messages.push(
+        {
+          type: "text",
+          text: "Hello, user",
+        },
+        {
+          type: "text",
+          text: "May I help you?",
+        }
+      )
+    }
 
     const dataString = JSON.stringify({
       replyToken: req.body.events[0].replyToken,
-      messages: [
-        {
-          "type": "text",
-          "text": "Hello, user"
-        },
-        {
-          "type": "text",
-          "text": "May I help you?"
-        }
-      ]
+      messages
     })
     
     const headers = {
