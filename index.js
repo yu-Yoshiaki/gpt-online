@@ -13,6 +13,11 @@ app.use(
   })
 )
 
+const headers = {
+  "Content-Type": "application/json",
+  "Authorization": "Bearer " + TOKEN
+}
+
 app.get("/", (req, res) => {
   console.log("yah")
   res.sendStatus(200)
@@ -57,7 +62,7 @@ app.post("/webhook", (req, res) => {
             ]},
           })
         
-        break;
+        break
 
       default:
         messages.push(
@@ -68,22 +73,10 @@ app.post("/webhook", (req, res) => {
         )
     }
 
-    if(event.type === "postback"){
-      messages.push({
-        type: "text",
-        text: event.message.text,
-      })
-    }
-
     const dataString = JSON.stringify({
       replyToken: req.body.events[0].replyToken,
       messages
     })
-    
-    const headers = {
-      "Content-Type": "application/json",
-      "Authorization": "Bearer " + TOKEN
-    }
     
     const webhookOptions = {
       "hostname": "api.line.me",
@@ -111,6 +104,46 @@ app.post("/webhook", (req, res) => {
     // データを送信
     request.write(dataString)
     request.end()
+  }
+
+  else if(event.type === "postback"){
+    const dataString = JSON.stringify({
+      replyToken: req.body.events[0].replyToken,
+      messages:[
+        {
+          type: "text",
+          text: event.message.text,
+        }
+      ]
+    })
+    
+    const webhookOptions = {
+      "hostname": "api.line.me",
+      "path": "/v2/bot/message/reply",
+      "method": "POST",
+      "headers": headers,
+      "body": dataString
+    }
+
+    // リクエストの定義
+    const request = https.request(
+      webhookOptions,
+      (res) => {
+        res.on("data", (d) => {
+          process.stdout.write(d)
+        })
+      }
+    )
+
+    // エラーをハンドル
+    request.on("error", (err) => {
+      console.error(err)
+    })
+
+    // データを送信
+    request.write(dataString)
+    request.end()
+
   }
 })
 
