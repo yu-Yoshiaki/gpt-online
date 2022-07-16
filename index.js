@@ -83,7 +83,7 @@ app.post("/webhook", (req, res) => {
     )
 
     // エラーをハンドル
-    request.on("error", (err: any) => {
+    request.on("error", (err) => {
       console.error(err)
     })
 
