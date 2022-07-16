@@ -1,5 +1,5 @@
 const express = require("express")
-import { Message, middleware, TemplateMessage } from "@line/bot-sdk"
+import { Message, middleware, TemplateMessage, TextMessage } from "@line/bot-sdk"
 
 import { config, client } from "./lib/client"
 import { reservationRes } from "./lib/message/reservationRes"
@@ -17,7 +17,7 @@ app.post("/webhook", middleware(config), (req: any, res: any) => {
 
 const handleEvent = (event: any) => {
   if (event.type === "message") {
-    const messages: (Message | TemplateMessage)[] = []
+    const messages: Message[] = []
 
     if (event.message.text === "予約") {
       messages.push(reservationRes)
@@ -25,7 +25,7 @@ const handleEvent = (event: any) => {
       messages.push({
         type: "text",
         text: "何かお困りごとはございますか?",
-      })
+      }as TextMessage)
     }
 
     return client.replyMessage(event.replyToken, messages)
