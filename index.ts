@@ -14,6 +14,7 @@ app.use(
 )
 
 app.get("/", (req: any, res: { sendStatus: (arg0: number) => void }) => {
+  console.log("yah")
   res.sendStatus(200)
 })
 
