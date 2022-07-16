@@ -23,16 +23,31 @@ app.post("/webhook", (req: { body: { events: any[] } }, res: { send: (arg0: stri
 
   const event = req.body.events[0]
   console.log("-----------",event);
-  const messages = []
+  // const messages = []
   // ユーザーがボットにメッセージを送った場合、返信メッセージを送る
   if (event.type === "message") {
-    if (event.message.text === "予約") {
-      messages.push({
-        type: "text",
-        text: "予約受け付けました。",
-      })
-    } else {
-      messages.push(
+    // if (event.message.text === "予約") {
+    //   messages.push({
+    //     type: "text",
+    //     text: "予約受け付けました。",
+    //   })
+    // } else {
+    //   messages.push(
+    //     {
+    //       type: "text",
+    //       text: "Hello, user",
+    //     },
+    //     {
+    //       type: "text",
+    //       text: "May I help you?",
+    //     }
+    //   )
+    // }
+    // console.log("============", messages)
+
+    const dataString = JSON.stringify({
+      replyToken: event.replyToken,
+      messages:[
         {
           type: "text",
           text: "Hello, user",
@@ -41,13 +56,7 @@ app.post("/webhook", (req: { body: { events: any[] } }, res: { send: (arg0: stri
           type: "text",
           text: "May I help you?",
         }
-      )
-    }
-    console.log("============", messages)
-
-    const dataString = JSON.stringify({
-      replyToken: event.replyToken,
-      messages,
+      ],
     })
 
     // リクエストに渡すオプション
