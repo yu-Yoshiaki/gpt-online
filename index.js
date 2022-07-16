@@ -29,7 +29,7 @@ app.post("/webhook", (req, res) => {
   const event = req.body.events[0]
   const messages = []
   // ユーザーがボットにメッセージを送った場合、返信メッセージを送る
-  console.log(event);
+  console.log("-----------",event);
   if (event.type === "message") {
     if(event.message.text === "予約"){
       messages.push({
@@ -37,13 +37,13 @@ app.post("/webhook", (req, res) => {
         text: "下記から選択してください。",
         quickReply: {
           items:[
-            {
-              "type": "action",
-              "action": {
-                "type": "postback",
-                "label": "予約する"
-              }
-            },
+            // {
+            //   "type": "action",
+            //   "action": {
+            //     "type": "postback",
+            //     "label": "予約する"
+            //   }
+            // },
             {
               "type": "action",
               "action": {
