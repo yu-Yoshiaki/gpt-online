@@ -13,12 +13,12 @@ app.use(
   })
 )
 
-app.get("/", (req: any, res: { sendStatus: (arg0: number) => void }) => {
+app.get("/", (req, res) => {
   console.log("yah")
   res.sendStatus(200)
 })
 
-app.post("/webhook", (req: { body: { events: any[] } }, res: { send: (arg0: string) => void }) => {
+app.post("/webhook", (req, res) => {
   res.send("HTTP POST request sent to the webhook URL!")
 
   const event = req.body.events[0]
@@ -46,36 +46,37 @@ app.post("/webhook", (req: { body: { events: any[] } }, res: { send: (arg0: stri
     // console.log("============", messages)
 
     const dataString = JSON.stringify({
-      replyToken: event.replyToken,
-      messages:[
+      replyToken: req.body.events[0].replyToken,
+      messages: [
         {
-          type: "text",
-          text: "Hello, user",
+          "type": "text",
+          "text": "Hello, user"
         },
         {
-          type: "text",
-          text: "May I help you?",
+          "type": "text",
+          "text": "May I help you?"
         }
-      ],
+      ]
     })
-
-    // リクエストに渡すオプション
+    
+    const headers = {
+      "Content-Type": "application/json",
+      "Authorization": "Bearer " + TOKEN
+    }
+    
     const webhookOptions = {
-      hostname: "api.line.me",
-      path: "/v2/bot/message/reply",
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: "Bearer " + TOKEN,
-      },
-      body: dataString,
+      "hostname": "api.line.me",
+      "path": "/v2/bot/message/reply",
+      "method": "POST",
+      "headers": headers,
+      "body": dataString
     }
 
     // リクエストの定義
     const request = https.request(
       webhookOptions,
-      (res: { on: (arg0: string, arg1: (d: any) => void) => void }) => {
-        res.on("data", (d: string | Uint8Array) => {
+      (res) => {
+        res.on("data", (d) => {
           process.stdout.write(d)
         })
       }
