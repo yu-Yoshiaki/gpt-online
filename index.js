@@ -44,8 +44,6 @@ app.post("/webhook", (req, res) => {
                 "label": "予約する",
                 "data": "action=buy&itemid=111",
                 "displayText": "予約",
-                "inputOption": "openKeyboard",
-                "fillInText": "---\nName: \nPhone: \nBirthday: \n---"
               }
             },
             {
@@ -107,42 +105,44 @@ app.post("/webhook", (req, res) => {
   }
 
   else if(event.type === "postback"){
-    const dataString = JSON.stringify({
-      replyToken: req.body.events[0].replyToken,
-      messages:[
-        {
-          type: "text",
-          text: event.message.text,
-        }
-      ]
-    })
+
+    console.log("==postback==",event);
+    // const dataString = JSON.stringify({
+    //   replyToken: req.body.events[0].replyToken,
+    //   messages:[
+    //     {
+    //       type: "text",
+    //       text: event.message.text,
+    //     }
+    //   ]
+    // })
     
-    const webhookOptions = {
-      "hostname": "api.line.me",
-      "path": "/v2/bot/message/reply",
-      "method": "POST",
-      "headers": headers,
-      "body": dataString
-    }
+    // const webhookOptions = {
+    //   "hostname": "api.line.me",
+    //   "path": "/v2/bot/message/reply",
+    //   "method": "POST",
+    //   "headers": headers,
+    //   "body": dataString
+    // }
 
-    // リクエストの定義
-    const request = https.request(
-      webhookOptions,
-      (res) => {
-        res.on("data", (d) => {
-          process.stdout.write(d)
-        })
-      }
-    )
+    // // リクエストの定義
+    // const request = https.request(
+    //   webhookOptions,
+    //   (res) => {
+    //     res.on("data", (d) => {
+    //       process.stdout.write(d)
+    //     })
+    //   }
+    // )
 
-    // エラーをハンドル
-    request.on("error", (err) => {
-      console.error(err)
-    })
+    // // エラーをハンドル
+    // request.on("error", (err) => {
+    //   console.error(err)
+    // })
 
-    // データを送信
-    request.write(dataString)
-    request.end()
+    // // データを送信
+    // request.write(dataString)
+    // request.end()
 
   }
 })
