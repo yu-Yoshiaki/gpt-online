@@ -2,9 +2,9 @@
   "name": "line-message-test",
   "version": "1.0.0",
   "description": "",
-  "main": "dist/index.js",
+  "main": "src/index.ts",
   "scripts": {
-    "start": "node dist/index.ts",
+    "start": "ts-node src/index.ts",
     "test": "echo \"Error: no test specified\" && exit 1",
     "prettier": "prettier --check ./",
     "prettier:fix": "prettier --write ./",
