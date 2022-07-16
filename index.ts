@@ -1,21 +1,23 @@
-"use strict"
-exports.__esModule = true
-var express = require("express")
-var bot_sdk_1 = require("@line/bot-sdk")
-var client_1 = require("./lib/client")
-var app = express()
-var PORT = process.env.PORT || 3000
-app.get("/", function (req, res) {
+const express = require("express")
+import { Message, middleware, TemplateMessage, WebhookEvent } from "@line/bot-sdk"
+
+import { config, client } from "./lib/client"
+
+const app = express()
+const PORT = process.env.PORT || 3000
+
+app.get("/", (req: any, res: { sendStatus: (arg0: number) => void }) => {
   res.sendStatus(200)
 })
-app.post("/webhook", (0, bot_sdk_1.middleware)(client_1.config), function (req, res) {
-  Promise.all(req.body.events.map(handleEvent)).then(function (result) {
-    return res.json(result)
-  })
+
+app.post("/webhook", middleware(config), (req: any, res: any) => {
+  Promise.all(req.body.events.map(handleEvent)).then((result) => res.json(result))
 })
-var handleEvent = function (event) {
+
+const handleEvent = (event: any) => {
   if (event.type === "message") {
-    var messages = []
+    const messages: Message[] = []
+
     if (event.message.text === "予約") {
       messages.push({
         type: "text",
@@ -54,9 +56,11 @@ var handleEvent = function (event) {
         text: "何かお困りごとはございますか?",
       })
     }
-    return client_1.client.replyMessage(event.replyToken, messages)
+
+    return client.replyMessage(event.replyToken, messages)
   }
 }
-app.listen(PORT, function () {
-  console.log("Example app listening at http://localhost:".concat(PORT))
+
+app.listen(PORT, () => {
+  console.log(`Example app listening at http://localhost:${PORT}`)
 })
