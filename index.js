@@ -43,6 +43,11 @@ app.post("/webhook", (req, res)=> {
       }
       console.log("============",messages);
 
+      const bodyString = JSON.stringify({
+        replyToken: event.replyToken,
+        messages
+      })
+
     // リクエストに渡すオプション
     const webhookOptions = {
       "hostname": "api.line.me",
@@ -52,10 +57,7 @@ app.post("/webhook", (req, res)=> {
         "Content-Type": "application/json",
         "Authorization": "Bearer " + TOKEN
       },
-      "body": JSON.stringify({
-        replyToken: event.replyToken,
-        messages
-      })
+      "body": bodyString
     }
 
     // リクエストの定義
