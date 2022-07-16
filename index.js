@@ -31,46 +31,42 @@ app.post("/webhook", (req, res) => {
   // ユーザーがボットにメッセージを送った場合、返信メッセージを送る
   console.log(event);
   if (event.type === "message") {
-    switch(event.message.text){
-      case "予約":
-        messages.push({
-          type:"text",
-          text: "下記から選択してください。",
-          quickReply: {
-            items:[
-              {
-                "type": "action",
-                "action": {
-                  "type": "postback",
-                  "label": "予約する"
-                }
-              },
-              {
-                "type": "action",
-                "action": {
-                  "type": "cameraRoll",
-                  "label": "Send photo"
-                }
-              },
-              {
-                "type": "action",
-                "action": {
-                  "type": "camera",
-                  "label": "Open camera"
-                }
+    if(event.message.text === "予約"){
+      messages.push({
+        type:"text",
+        text: "下記から選択してください。",
+        quickReply: {
+          items:[
+            {
+              "type": "action",
+              "action": {
+                "type": "postback",
+                "label": "予約する"
               }
-            ]},
-          })
-        
-        break;
-
-      default:
-        messages.push(
-          {
-            type: "text",
-            text: "何かお困りごとはございますか?",
-          }
-        )
+            },
+            {
+              "type": "action",
+              "action": {
+                "type": "cameraRoll",
+                "label": "Send photo"
+              }
+            },
+            {
+              "type": "action",
+              "action": {
+                "type": "camera",
+                "label": "Open camera"
+              }
+            }
+          ]},
+        })
+    }else{
+      messages.push(
+        {
+          type: "text",
+          text: "何かお困りごとはございますか?",
+        }
+      )
     }
 
     const dataString = JSON.stringify({
