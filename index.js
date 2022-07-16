@@ -3,7 +3,10 @@ const express = require("express")
 const app = express()
 const PORT = process.env.PORT || 3000
 const TOKEN = process.env.LINE_ACCESS_TOKEN
+// const SECRET = process.env.LINE_CHANNEL_SECRET
 
+
+//ミドルウェア設定
 app.use(express.json())
 app.use(express.urlencoded({
   extended: true
@@ -13,38 +16,47 @@ app.get("/", (req, res) => {
   res.sendStatus(200)
 })
 
-app.post("/webhook", function(req, res) {
+app.post("/webhook", (req, res)=> {
   res.send("HTTP POST request sent to the webhook URL!")
-  // ユーザーがボットにメッセージを送った場合、返信メッセージを送る
-  if (req.body.events[0].type === "message") {
-    // 文字列化したメッセージデータ
-    const dataString = JSON.stringify({
-      replyToken: req.body.events[0].replyToken,
-      messages: [
-        {
-          "type": "text",
-          "text": "Hello, user"
-        },
-        {
-          "type": "text",
-          "text": "May I help you?"
-        }
-      ]
-    })
 
-    // リクエストヘッダー
-    const headers = {
-      "Content-Type": "application/json",
-      "Authorization": "Bearer " + TOKEN
-    }
+  const event = req.body.events[0]
+  // ユーザーがボットにメッセージを送った場合、返信メッセージを送る
+  if (event.type === "message") {
+    const messages = ()=>{ 
+      if(event.message.text==="予約"){
+        return [
+          {
+            "type":"text",
+            "text": "予約受け付けました。"
+          }
+        ]
+      }
+      
+      return [
+      {
+        "type": "text",
+        "text": "Hello, user"
+      },
+      {
+        "type": "text",
+        "text": "May I help you?"
+      }
+    ]
+  }
 
     // リクエストに渡すオプション
     const webhookOptions = {
       "hostname": "api.line.me",
       "path": "/v2/bot/message/reply",
       "method": "POST",
-      "headers": headers,
-      "body": dataString
+      "headers": {
+        "Content-Type": "application/json",
+        "Authorization": "Bearer " + TOKEN
+      },
+      "body": JSON.stringify({
+        replyToken: event.replyToken,
+        messages
+      })
     }
 
     // リクエストの定義
