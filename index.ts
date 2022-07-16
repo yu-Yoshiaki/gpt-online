@@ -22,6 +22,7 @@ app.post("/webhook", (req: { body: { events: any[] } }, res: { send: (arg0: stri
   res.send("HTTP POST request sent to the webhook URL!")
 
   const event = req.body.events[0]
+  console.log("-----------",event);
   const messages = []
   // ユーザーがボットにメッセージを送った場合、返信メッセージを送る
   if (event.type === "message") {
