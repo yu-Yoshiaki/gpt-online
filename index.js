@@ -62,7 +62,7 @@ app.post("/webhook", (req, res) => {
             ]},
           })
         
-        break
+        break;
 
       default:
         messages.push(
@@ -77,7 +77,7 @@ app.post("/webhook", (req, res) => {
       replyToken: req.body.events[0].replyToken,
       messages
     })
-    
+
     const webhookOptions = {
       "hostname": "api.line.me",
       "path": "/v2/bot/message/reply",
