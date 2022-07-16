@@ -37,13 +37,17 @@ app.post("/webhook", (req, res) => {
         text: "下記から選択してください。",
         quickReply: {
           items:[
-            // {
-            //   "type": "action",
-            //   "action": {
-            //     "type": "postback",
-            //     "label": "予約する"
-            //   }
-            // },
+            {
+              "type": "action",
+              "action": {
+                "type": "postback",
+                "label": "予約する",
+                "data": "action=buy&itemid=111",
+                "displayText": "予約",
+                "inputOption": "openKeyboard",
+                "fillInText": "---\nName: \nPhone: \nBirthday: \n---"
+              }
+            },
             {
               "type": "action",
               "action": {
