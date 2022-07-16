@@ -1,7 +1,8 @@
 const express = require("express")
-import { Message, middleware, TemplateMessage, WebhookEvent } from "@line/bot-sdk"
+import { Message, middleware, TemplateMessage } from "@line/bot-sdk"
 
 import { config, client } from "./lib/client"
+import { reservationRes } from "./lib/message/reservationRes"
 
 const app = express()
 const PORT = process.env.PORT || 3000
@@ -16,40 +17,10 @@ app.post("/webhook", middleware(config), (req: any, res: any) => {
 
 const handleEvent = (event: any) => {
   if (event.type === "message") {
-    const messages: Message[] = []
+    const messages: (Message | TemplateMessage)[] = []
 
     if (event.message.text === "予約") {
-      messages.push({
-        type: "text",
-        text: "下記から選択してください。",
-        quickReply: {
-          items: [
-            {
-              type: "action",
-              action: {
-                type: "postback",
-                label: "予約する",
-                data: "action=buy&itemid=111",
-                displayText: "予約",
-              },
-            },
-            {
-              type: "action",
-              action: {
-                type: "cameraRoll",
-                label: "Send photo",
-              },
-            },
-            {
-              type: "action",
-              action: {
-                type: "camera",
-                label: "Open camera",
-              },
-            },
-          ],
-        },
-      })
+      messages.push(reservationRes)
     } else {
       messages.push({
         type: "text",
