@@ -21,7 +21,7 @@ export const reservationRes: TemplateMessage = {
   },
 };
 
-const A = {
+export const A = {
   type: "text",
   text: "下記から選択してください。",
   quickReply: {

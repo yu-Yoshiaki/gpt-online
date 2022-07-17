@@ -1,5 +1,5 @@
 import express from "express";
-import { EventMessage, Message, middleware, TemplateMessage, TextMessage } from "@line/bot-sdk";
+import { Message, middleware, TextMessage } from "@line/bot-sdk";
 
 import { config, client } from "./lib/client";
 import { reservationRes } from "./lib/message/reservationRes";
