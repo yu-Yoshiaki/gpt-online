@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import express from "express";
 import { Message, middleware, TextMessage } from "@line/bot-sdk";
 
