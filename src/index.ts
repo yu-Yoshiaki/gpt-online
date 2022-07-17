@@ -1,5 +1,6 @@
+/* eslint-disable @typescript-eslint/no-var-requires */
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import express from "express";
+const express = require("express");
 
 import { middlewareConfig } from "./lib/client";
 import { handleEvent } from "./lib/handleEvent";
