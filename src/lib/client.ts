@@ -1,8 +1,7 @@
-import { Client } from "@line/bot-sdk";
+import { Client, middleware } from "@line/bot-sdk";
 
-export const config = {
-  channelAccessToken: process.env.LINE_ACCESS_TOKEN as string,
-  channelSecret: process.env.LINE_CHANNEL_SECRET as string,
-};
+const channelAccessToken = process.env.LINE_ACCESS_TOKEN as string;
+const channelSecret = process.env.LINE_CHANNEL_SECRET as string;
 
-export const client = new Client(config);
+export const client = new Client({ channelAccessToken });
+export const middlewareConfig = middleware({ channelSecret });

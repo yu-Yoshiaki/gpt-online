@@ -5,17 +5,17 @@ export const reservationRes: TemplateMessage = {
   altText: "this is a confirm template",
   template: {
     type: "confirm",
-    text: "Are you sure?",
+    text: "予約の申し込みでよろしいですか？",
     actions: [
       {
         type: "message",
         label: "Yes",
-        text: "yes",
+        text: "はい",
       },
       {
         type: "message",
         label: "No",
-        text: "no",
+        text: "いいえ",
       },
     ],
   },
