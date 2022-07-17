@@ -12,8 +12,10 @@ app.get("/", (_, res: { sendStatus: (arg0: number) => void }) => {
 });
 
 app.post("/webhook", middlewareConfig, (req, res) => {
-  console.log("------------", req);
-  Promise.all(req.body.events.map(handleEvent)).then((result) => res.json(result));
+  const events = req.body.events;
+  console.log("------------", events);
+  Promise.all(events.map(handleEvent)).then((result) => res.json(result));
+  res.sendStatus(200);
 });
 
 app.listen(PORT, () => {
