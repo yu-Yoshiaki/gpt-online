@@ -1,4 +1,4 @@
-import { TemplateMessage } from "@line/bot-sdk"
+import { TemplateMessage } from "@line/bot-sdk";
 
 export const reservationRes: TemplateMessage = {
   type: "template",
@@ -19,7 +19,7 @@ export const reservationRes: TemplateMessage = {
       },
     ],
   },
-}
+};
 
 const A = {
   type: "text",
@@ -51,4 +51,4 @@ const A = {
       },
     ],
   },
-}
+};
