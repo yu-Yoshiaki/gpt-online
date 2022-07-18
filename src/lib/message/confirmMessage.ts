@@ -1,6 +1,6 @@
 import { TemplateMessage } from "@line/bot-sdk";
 
-export const reservationRes: TemplateMessage = {
+export const confirmMessage: TemplateMessage = {
   type: "template",
   altText: "this is a confirm template",
   template: {
@@ -8,9 +8,10 @@ export const reservationRes: TemplateMessage = {
     text: "予約の申し込みでよろしいですか？",
     actions: [
       {
-        type: "message",
+        type: "postback",
         label: "はい",
-        text: "yes",
+        data: "action=reserve",
+        displayText: "はい",
       },
       {
         type: "message",
