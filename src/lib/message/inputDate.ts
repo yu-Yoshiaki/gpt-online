@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Message } from "@line/bot-sdk";
 
 export const inputDate: Message[] = [
@@ -14,6 +15,29 @@ export const inputDate: Message[] = [
           mode: "date",
           label: "予約日を決めきめる。",
           data: "action=reserve&date=confirm",
+        },
+      ],
+    },
+  },
+];
+
+export const confirmDate: (event: any) => Message[] = (event) => [
+  {
+    type: "template",
+    altText: "this is a confirm template",
+    template: {
+      type: "confirm",
+      text: `${event.postback.params.date}でよろしいでしょうか？`,
+      actions: [
+        {
+          type: "message",
+          label: "はい",
+          text: "はい",
+        },
+        {
+          type: "message",
+          label: "いいえ",
+          text: "no",
         },
       ],
     },

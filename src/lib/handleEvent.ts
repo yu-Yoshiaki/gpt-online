@@ -1,7 +1,7 @@
 import { client } from "./client";
 import { followMessage } from "./message/follow";
 import { confirmMessage } from "./message/confirmMessage";
-import { inputDate } from "./message/inputDate";
+import { confirmDate, inputDate } from "./message/inputDate";
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
 export const handleEvent = (event: any) => {
@@ -24,6 +24,9 @@ export const handleEvent = (event: any) => {
   if (event.type === "postback") {
     if (event.postback.data === "action=reserve") {
       return client.replyMessage(event.replyToken, inputDate);
+    } else if (event.postback.data === "action=reserve&date=confirm") {
+      const messages = confirmDate(event);
+      return client.replyMessage(event.replyToken, messages);
     }
   }
 
