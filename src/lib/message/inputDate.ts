@@ -7,13 +7,12 @@ export const inputDate: Message[] = [
     altText: "This is a buttons template",
     template: {
       type: "buttons",
-      title: "予約日を決めてください。",
-      text: "Please select",
+      text: "",
       actions: [
         {
           type: "datetimepicker",
           mode: "date",
-          label: "予約日を決めきめる。",
+          label: "予約日を決める。",
           data: "action=reserve&date=confirm",
         },
       ],
