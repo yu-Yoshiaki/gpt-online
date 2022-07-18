@@ -1,20 +1,24 @@
-import { Message, TextMessage } from "@line/bot-sdk";
 import { client } from "./client";
+import { followMessage } from "./message/follow";
 import { reservationRes } from "./message/reservationRes";
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
 export const handleEvent = (event: any) => {
-  if (event.type !== "message" || event.message.type !== "text") {
-    return Promise.resolve(null);
+  if (event.type === "message") {
+    const eventText = event.message.text;
+    if (eventText === "予約") {
+      return client.replyMessage(event.replyToken, reservationRes);
+    } else {
+      return client.replyMessage(event.replyToken, {
+        type: "text",
+        text: "何かお困りごとはございますか?",
+      });
+    }
   }
-  const messages: Message[] = [];
-  if (event.message.text === "予約") {
-    messages.push(reservationRes);
-  } else {
-    messages.push({
-      type: "text",
-      text: "何かお困りごとはございますか?",
-    } as TextMessage);
+
+  if (event.type === "follow") {
+    return client.replyMessage(event.replyToken, followMessage);
   }
-  return client.replyMessage(event.replyToken, messages);
+
+  return Promise.resolve(null);
 };

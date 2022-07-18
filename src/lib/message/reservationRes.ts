@@ -9,13 +9,13 @@ export const reservationRes: TemplateMessage = {
     actions: [
       {
         type: "message",
-        label: "Yes",
-        text: "はい",
+        label: "はい",
+        text: "yes",
       },
       {
         type: "message",
-        label: "No",
-        text: "いいえ",
+        label: "いいえ",
+        text: "no",
       },
     ],
   },
