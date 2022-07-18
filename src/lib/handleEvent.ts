@@ -25,11 +25,10 @@ export const handleEvent = (event: any) => {
     console.log(event.postback);
     if (event.postback.data === "action=reserve") {
       return client.replyMessage(event.replyToken, inputDate);
+    } else if (event.postback.data === "action=reserve&date=confirm") {
+      const messages = confirmDate(event);
+      return client.replyMessage(event.replyToken, messages);
     }
-    // else if (event.postback.data === "action=reserve&date=confirm") {
-    //   const messages = confirmDate(event);
-    //   return client.replyMessage(event.replyToken, messages);
-    // }
   }
 
   return Promise.resolve(null);
