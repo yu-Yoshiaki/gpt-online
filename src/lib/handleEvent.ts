@@ -22,6 +22,7 @@ export const handleEvent = (event: any) => {
   }
 
   if (event.type === "postback") {
+    console.log(event.postback);
     if (event.postback.data === "action=reserve") {
       return client.replyMessage(event.replyToken, inputDate);
     }

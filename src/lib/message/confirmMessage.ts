@@ -16,7 +16,7 @@ export const confirmMessage: TemplateMessage = {
       {
         type: "message",
         label: "いいえ",
-        text: "no",
+        text: "いいえ",
       },
     ],
   },
