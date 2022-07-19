@@ -11,9 +11,9 @@ export const inputDate: Message[] = [
     altText: "This is a buttons template",
     template: {
       type: "buttons",
-      thumbnailImageUrl: "/public/image01.jpg",
-      imageAspectRatio: "square",
-      imageSize: "cover",
+      // thumbnailImageUrl: "https://chu-hotel01.herokuapp.com/public/image01.jpg",
+      // imageAspectRatio: "square",
+      // imageSize: "cover",
       text: "下記のボタンより予約日を決めてください。",
       actions: [
         {
