@@ -47,7 +47,7 @@ export const confirmDate: (event: any) => Message[] = (event) => [
           text: "はい",
         },
         {
-          type: "message",
+          type: "postback",
           data: "action=reserve&date=retry",
           label: "retryReservation",
           text: "いいえ",
