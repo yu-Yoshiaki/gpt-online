@@ -20,7 +20,7 @@ export const inputDate: Message[] = [
           type: "datetimepicker",
           mode: "date",
           label: "予約日を決める。",
-          data: "action=reserve&date=confirm",
+          data: "action=reserve",
         },
         {
           type: "message",
@@ -34,10 +34,6 @@ export const inputDate: Message[] = [
 
 export const confirmDate: (event: any) => Message[] = (event) => [
   {
-    type: "text",
-    text: "確認中...",
-  },
-  {
     type: "template",
     altText: "this is a confirm template",
     template: {
@@ -45,14 +41,16 @@ export const confirmDate: (event: any) => Message[] = (event) => [
       text: `${event.postback.params.date}でよろしいでしょうか？`,
       actions: [
         {
-          type: "message",
-          label: "はい",
+          type: "postback",
+          data: "action=reserve&date=confirm",
+          label: "confirmReservation",
           text: "はい",
         },
         {
           type: "message",
-          label: "いいえ",
-          text: "no",
+          data: "action=reserve&date=retry",
+          label: "retryReservation",
+          text: "いいえ",
         },
       ],
     },
