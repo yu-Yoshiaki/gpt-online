@@ -13,6 +13,8 @@ export const handleEvent = (event: any) => {
     } else if (eventText === "リッチメニュー") {
       async () => {
         const id = await createRichMenu(richMenuData);
+        console.log("id---", id);
+
         setRichMenuImage({ richMenuId: id, path: "/public/richmenu3*2.png" });
         setDefaultMenu(id);
       };
