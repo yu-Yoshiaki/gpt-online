@@ -10,11 +10,14 @@ export const handleEvent = (event: any) => {
     const eventText = event.message.text;
     if (eventText === "予約") {
       return client.replyMessage(event.replyToken, inputDate);
+    } else if (eventText === "path") {
+      console.log("--------");
+      console.log(__dirname);
     } else if (eventText === "リッチメニュー作成") {
       createRichMenu(richMenuData)
         .then((id) => {
           console.log("id---", id);
-          setRichMenuImage({ richMenuId: id, url: "/public/richmenu3*2.png" });
+          setRichMenuImage({ richMenuId: id, url: "../../public/richmenu3*2.png" });
           setDefaultMenu(id);
         })
         .catch((err) => {
