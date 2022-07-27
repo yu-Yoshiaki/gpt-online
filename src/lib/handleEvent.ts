@@ -14,7 +14,7 @@ export const handleEvent = (event: any) => {
       createRichMenu(richMenuData)
         .then((id) => {
           console.log("id---", id);
-          setRichMenuImage({ richMenuId: id, path: "/public/richmenu3*2.png" });
+          setRichMenuImage({ richMenuId: id, url: "/public/richmenu3*2.png" });
           setDefaultMenu(id);
         })
         .catch((err) => {

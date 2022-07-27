@@ -1,5 +1,6 @@
 import { RichMenu } from "@line/bot-sdk";
 import { createReadStream } from "fs";
+import { join } from "path";
 import { client } from "./client";
 
 export const createRichMenu = async (richMenuData: RichMenu) => {
@@ -9,11 +10,12 @@ export const createRichMenu = async (richMenuData: RichMenu) => {
 
 export const setRichMenuImage = async ({
   richMenuId,
-  path,
+  url,
 }: {
   richMenuId: string;
-  path: string;
+  url: string;
 }) => {
+  const path = join(__dirname, url);
   const buffer = createReadStream(path);
   await client.setRichMenuImage(richMenuId, buffer);
 };
