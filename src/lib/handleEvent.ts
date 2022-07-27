@@ -10,7 +10,7 @@ export const handleEvent = (event: any) => {
     const eventText = event.message.text;
     if (eventText === "予約") {
       return client.replyMessage(event.replyToken, inputDate);
-    } else if (eventText === "リッチメニュー") {
+    } else if (eventText === "リッチメニュー作成") {
       createRichMenu(richMenuData)
         .then((id) => {
           console.log("id---", id);
