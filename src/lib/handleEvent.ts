@@ -6,16 +6,18 @@ import { richMenuData } from "./message/richMenuData";
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
 export const handleEvent = (event: any) => {
-  async () => {
-    const id = await createRichMenu(richMenuData);
-    setRichMenuImage({ richMenuId: id, path: "/public/richmenu3*2.png" });
-    setDefaultMenu(id);
-  };
-
   if (event.type === "message") {
     const eventText = event.message.text;
     if (eventText === "予約") {
       return client.replyMessage(event.replyToken, inputDate);
+    } else if (eventText === "リッチメニュー") {
+      async () => {
+        const id = await createRichMenu(richMenuData);
+        setRichMenuImage({ richMenuId: id, path: "/public/richmenu3*2.png" });
+        setDefaultMenu(id);
+      };
+
+      return;
     } else {
       return client.replyMessage(event.replyToken, {
         type: "text",
