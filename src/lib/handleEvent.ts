@@ -13,6 +13,10 @@ export const handleEvent = (event: any) => {
     } else if (eventText === "path") {
       console.log("--------");
       console.log(__dirname);
+    } else if (eventText === "リッチメニューリスト") {
+      client.getRichMenuList().then((menu) => {
+        console.log("++++++++++++=", menu);
+      });
     } else if (eventText === "リッチメニュー作成") {
       createRichMenu(richMenuData)
         .then((id) => {
