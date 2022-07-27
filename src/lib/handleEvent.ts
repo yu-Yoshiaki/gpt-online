@@ -11,15 +11,15 @@ export const handleEvent = (event: any) => {
     if (eventText === "予約") {
       return client.replyMessage(event.replyToken, inputDate);
     } else if (eventText === "リッチメニュー") {
-      async () => {
-        const id = await createRichMenu(richMenuData);
-        console.log("id---", id);
-
-        setRichMenuImage({ richMenuId: id, path: "/public/richmenu3*2.png" });
-        setDefaultMenu(id);
-      };
-
-      return;
+      createRichMenu(richMenuData)
+        .then((id) => {
+          console.log("id---", id);
+          setRichMenuImage({ richMenuId: id, path: "/public/richmenu3*2.png" });
+          setDefaultMenu(id);
+        })
+        .catch((err) => {
+          console.log("error", err);
+        });
     } else {
       return client.replyMessage(event.replyToken, {
         type: "text",
