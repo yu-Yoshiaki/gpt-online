@@ -17,7 +17,10 @@ export const handleEvent = (event: any) => {
       createRichMenu(richMenuData)
         .then((id) => {
           console.log("id---", id);
-          setRichMenuImage({ richMenuId: id, url: "../../public/richmenu3*2.png" });
+          setRichMenuImage({
+            richMenuId: id,
+            url: "https://images.microcms-assets.io/assets/47e7fcaea43947baa0cd0b9e6f59b2f9/abe8185c24904d0dac93541bb3cf64aa/7E3A256F-ED0F-488E-AC74-7FDDA076F515.png",
+          });
           setDefaultMenu(id);
         })
         .catch((err) => {
