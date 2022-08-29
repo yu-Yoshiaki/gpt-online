@@ -43,12 +43,14 @@ export const poctback = (event: any) => {
     });
   } else if (/action=reserve&date=20[0-9]{2}-[0-9]{1,}-[0-9]{1,}/.test(poctbackData)) {
     return client.replyMessage(event.replyToken, setMember(poctbackData));
-  } else if (poctbackData === "action=signup&name=null&phone=null&address=null") {
-    const message: Message = {
-      type:""
-    }
-    return client.replyMessage(event.replyToken, setMember(poctbackData));
-  } else {
+  }
+  // else if (poctbackData === "action=signup&name=null&phone=null&address=null") {
+  //   const message: Message = {
+  //     type:""
+  //   }
+  //   return client.replyMessage(event.replyToken, setMember(poctbackData));
+  // }
+  else {
     return client.replyMessage(event.replyToken, {
       type: "text",
       text: "error",
