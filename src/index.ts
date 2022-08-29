@@ -8,11 +8,6 @@ import { event } from "./event";
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-app.use((req: any, res: any, next: any) => {
-  console.log("%O", req);
-  next();
-});
-
 app.get("/", (_: any, res: { sendStatus: (arg0: number) => void }) => {
   res.sendStatus(200);
 });
