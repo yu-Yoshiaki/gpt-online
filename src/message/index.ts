@@ -25,16 +25,9 @@ export const message = (event: any) => {
               text: `ユーザー登録に進みますか？`,
               actions: [
                 {
-                  type: "postback",
-                  label: `はい`,
-                  data: `action=signup&name=null&phone=null&address=null`,
-                  displayText: `ユーザー登録に進む`,
-                },
-                {
-                  type: "postback",
-                  label: `いいえ`,
-                  data: `action=signup&cancel=true`,
-                  displayText: `いいえ`,
+                  type: "uri",
+                  label: `ユーザー登録に進む`,
+                  uri: "https://liff.line.me/1657424528-doXMQvzK",
                 },
               ],
             },
