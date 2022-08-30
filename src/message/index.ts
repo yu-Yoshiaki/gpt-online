@@ -1,10 +1,8 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { RichMenu } from "@line/bot-sdk";
 import { client } from "../client";
 import { fetchMyReservation } from "../fetchMyReservation";
 import { fetchUserInfo } from "../fetchUserInfo";
 import { fetchVacancy } from "../fetchVacancy";
-import fs from "fs";
 
 export const message = (event: any) => {
   const eventText = event.message.text;
@@ -21,7 +19,7 @@ export const message = (event: any) => {
             type: "template",
             altText: "ユーザー登録に進みますか？",
             template: {
-              type: "confirm",
+              type: "buttons",
               text: `ユーザー登録に進みますか？`,
               actions: [
                 {
