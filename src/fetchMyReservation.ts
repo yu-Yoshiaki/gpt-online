@@ -1,9 +1,10 @@
 import { TemplateMessage, TextMessage } from "@line/bot-sdk";
 import { supabase } from "./supabase";
+import { definitions } from "./type/supabase";
 
 export const fetchMyReservation = async (userId: string) => {
   const { data: reserve, error } = await supabase
-    .from("reserve")
+    .from<definitions["reserve"]>("reserve")
     .select("*")
     .eq("userId", userId)
     .not("status", "eq", "キャンセル");
