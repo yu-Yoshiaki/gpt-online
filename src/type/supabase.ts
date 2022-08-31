@@ -370,14 +370,14 @@ export interface definitions {
     address?: string;
     /**
      * Format: timestamp with time zone
-     * @default timezone(''::text, now())
+     * @default now()
      */
-    inserted_at: string;
+    inserted_at?: string;
     /**
      * Format: timestamp with time zone
-     * @default timezone('utc'::text, now())
+     * @default now()
      */
-    updated_at: string;
+    updated_at?: string;
     /** Format: character varying */
     username: string;
   };

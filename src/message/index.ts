@@ -25,7 +25,7 @@ export const message = (event: any) => {
                 {
                   type: "uri",
                   label: `ユーザー登録に進む`,
-                  uri: "https://liff.line.me/1657424528-doXMQvzK",
+                  uri: "https://liff.line.me/1657424528-doXMQvzK/signup",
                 },
               ],
             },
