@@ -19,9 +19,9 @@ export interface paths {
           id?: parameters["rowFilter.reserve.id"];
           created_at?: parameters["rowFilter.reserve.created_at"];
           date?: parameters["rowFilter.reserve.date"];
-          userId?: parameters["rowFilter.reserve.userId"];
           member?: parameters["rowFilter.reserve.member"];
           status?: parameters["rowFilter.reserve.status"];
+          lineid?: parameters["rowFilter.reserve.lineid"];
           /** Filtering Columns */
           select?: parameters["select"];
           /** Ordering */
@@ -75,9 +75,9 @@ export interface paths {
           id?: parameters["rowFilter.reserve.id"];
           created_at?: parameters["rowFilter.reserve.created_at"];
           date?: parameters["rowFilter.reserve.date"];
-          userId?: parameters["rowFilter.reserve.userId"];
           member?: parameters["rowFilter.reserve.member"];
           status?: parameters["rowFilter.reserve.status"];
+          lineid?: parameters["rowFilter.reserve.lineid"];
         };
         header: {
           /** Preference */
@@ -95,9 +95,9 @@ export interface paths {
           id?: parameters["rowFilter.reserve.id"];
           created_at?: parameters["rowFilter.reserve.created_at"];
           date?: parameters["rowFilter.reserve.date"];
-          userId?: parameters["rowFilter.reserve.userId"];
           member?: parameters["rowFilter.reserve.member"];
           status?: parameters["rowFilter.reserve.status"];
+          lineid?: parameters["rowFilter.reserve.lineid"];
         };
         body: {
           /** reserve */
@@ -329,12 +329,16 @@ export interface definitions {
     created_at?: string;
     /** Format: date */
     date: string;
-    /** Format: uuid */
-    userId: string;
     /** Format: integer */
     member: number;
     /** Format: text */
     status: string;
+    /**
+     * Format: character varying
+     * @description Note:
+     * This is a Foreign Key to `customers.lineid`.<fk table='customers' column='lineid'/>
+     */
+    lineid: string;
   };
   users: {
     /**
@@ -420,12 +424,12 @@ export interface parameters {
   "rowFilter.reserve.created_at": string;
   /** Format: date */
   "rowFilter.reserve.date": string;
-  /** Format: uuid */
-  "rowFilter.reserve.userId": string;
   /** Format: integer */
   "rowFilter.reserve.member": string;
   /** Format: text */
   "rowFilter.reserve.status": string;
+  /** Format: character varying */
+  "rowFilter.reserve.lineid": string;
   /** @description users */
   "body.users": definitions["users"];
   /** Format: uuid */

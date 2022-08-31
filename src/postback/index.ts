@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { Message, Postback } from "@line/bot-sdk";
+import { Postback } from "@line/bot-sdk";
 import { client } from "../client";
 import { confirmDate, inputDate } from "../message/inputDate";
 import { setMember } from "./setMember";
@@ -38,19 +38,12 @@ export const poctback = (event: any) => {
       return client.replyMessage(event.replyToken, confirmReservation(date, member));
     }
 
-    setReservation(date, member).then((message) => {
+    setReservation(date, member, event.source.userId).then((message) => {
       return client.replyMessage(event.replyToken, message);
     });
   } else if (/action=reserve&date=20[0-9]{2}-[0-9]{1,}-[0-9]{1,}/.test(poctbackData)) {
     return client.replyMessage(event.replyToken, setMember(poctbackData));
-  }
-  // else if (poctbackData === "action=signup&name=null&phone=null&address=null") {
-  //   const message: Message = {
-  //     type:""
-  //   }
-  //   return client.replyMessage(event.replyToken, setMember(poctbackData));
-  // }
-  else {
+  } else {
     return client.replyMessage(event.replyToken, {
       type: "text",
       text: "error",

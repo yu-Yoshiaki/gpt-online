@@ -1,3 +1,4 @@
 **/node_modules/*
 /.eslintrc.js
 /*.cofig.js
+/src/type/supabase.ts
