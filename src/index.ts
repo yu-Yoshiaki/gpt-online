@@ -1,18 +1,19 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import express from "express";
 
+//requireじゃないと本番ビルドがエラー
+const express = require("express");
 import { middlewareConfig } from "./client";
 import { event } from "./event";
 
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-app.get("/", (_: any, res) => {
+app.get("/", (_: any, res: any) => {
   res.sendStatus(200);
 });
 
-app.post("/webhook", middlewareConfig, (req, res) => {
+app.post("/webhook", middlewareConfig, (req: any, res: any) => {
   console.log("events-----", req.body.events);
   Promise.all(req.body.events.map(event)).then((result) => {
     res.json(result);
