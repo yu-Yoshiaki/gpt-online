@@ -1,4 +1,4 @@
-import { TemplateMessage, TextMessage } from "@line/bot-sdk";
+import { Message, TemplateMessage } from "@line/bot-sdk";
 import { supabase } from "../supabase";
 import { definitions } from "../type/supabase";
 
@@ -8,17 +8,28 @@ export const setReservation = async (date: string, member: number, lineid: strin
   const data: Data[] = [{ date, member, lineid, status: "予約済み" }];
   const { data: reservation, error } = await supabase
     .from<definitions["reserve"]>("reserve")
-    .insert(data);
+    .insert(data)
+    .single();
   if (error)
     return {
       type: "text",
       text: error.message,
-    } as TextMessage;
+    } as Message;
 
-  return {
-    type: "text",
-    text: `予約日: ${reservation[0].date}, 人数: ${reservation[0].member}人で予約しました。`,
-  } as TextMessage;
+  return [
+    {
+      type: "text",
+      text: `予約日: ${reservation.date}, 人数: ${reservation.member}人で予約しました。`,
+    },
+    {
+      type: "text",
+      text: "当日は以下の情報をお見せください。",
+    },
+    {
+      type: "text",
+      text: `予約番号: ${reservation.reserveid}`,
+    },
+  ] as Message[];
 };
 
 export const confirmReservation = (date: string, member: number) => {

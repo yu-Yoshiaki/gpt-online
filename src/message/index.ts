@@ -7,7 +7,7 @@ import { fetchVacancy } from "../fetchVacancy";
 export const message = (event: any) => {
   const eventText = event.message.text;
 
-  if (eventText === "予約") {
+  if (eventText === "予約" || /予約(する|したい|申し込[みむ])/.test(eventText)) {
     fetchUserInfo(event.source.userId).then((data) => {
       if (!data)
         return client.replyMessage(event.replyToken, [

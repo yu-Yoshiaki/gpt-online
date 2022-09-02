@@ -9,27 +9,31 @@ export const fetchMyReservation = async (lineid: string) => {
     .eq("lineid", lineid)
     .not("status", "eq", "キャンセル");
 
-  if (error) {
-    const message: TextMessage = {
+  if (error)
+    return {
+      type: "text",
+      text: error.message,
+    } as TextMessage;
+
+  if (reserve.length === 0)
+    return {
       type: "text",
       text: "予約情報はありません。",
-    };
-    return message;
-  }
+    } as TextMessage;
 
-  const message: TemplateMessage[] = reserve.map(({ date, member, id }) => {
+  const message: TemplateMessage[] = reserve.map(({ date, member, reserveid }) => {
     return {
       type: "template",
       altText: "予約確認",
       template: {
         type: "buttons",
-        text: `予約日: ${date}、 人数: ${member}人で予約が入っています。`,
+        text: `予約番号: ${reserveid}        予約日: ${date}               人数: ${member}人で予約が入っています。`,
         actions: [
           {
             type: "postback",
             label: "キャンセルする",
             displayText: "キャンセルする",
-            data: `reservation=cancel&id=${id}`,
+            data: `reservation=cancel&reserveid=${reserveid}`,
           },
         ],
       },

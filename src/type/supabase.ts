@@ -16,12 +16,12 @@ export interface paths {
     get: {
       parameters: {
         query: {
-          id?: parameters["rowFilter.reserve.id"];
           created_at?: parameters["rowFilter.reserve.created_at"];
           date?: parameters["rowFilter.reserve.date"];
           member?: parameters["rowFilter.reserve.member"];
           status?: parameters["rowFilter.reserve.status"];
           lineid?: parameters["rowFilter.reserve.lineid"];
+          reserveid?: parameters["rowFilter.reserve.reserveid"];
           /** Filtering Columns */
           select?: parameters["select"];
           /** Ordering */
@@ -72,12 +72,12 @@ export interface paths {
     delete: {
       parameters: {
         query: {
-          id?: parameters["rowFilter.reserve.id"];
           created_at?: parameters["rowFilter.reserve.created_at"];
           date?: parameters["rowFilter.reserve.date"];
           member?: parameters["rowFilter.reserve.member"];
           status?: parameters["rowFilter.reserve.status"];
           lineid?: parameters["rowFilter.reserve.lineid"];
+          reserveid?: parameters["rowFilter.reserve.reserveid"];
         };
         header: {
           /** Preference */
@@ -92,12 +92,12 @@ export interface paths {
     patch: {
       parameters: {
         query: {
-          id?: parameters["rowFilter.reserve.id"];
           created_at?: parameters["rowFilter.reserve.created_at"];
           date?: parameters["rowFilter.reserve.date"];
           member?: parameters["rowFilter.reserve.member"];
           status?: parameters["rowFilter.reserve.status"];
           lineid?: parameters["rowFilter.reserve.lineid"];
+          reserveid?: parameters["rowFilter.reserve.reserveid"];
         };
         body: {
           /** reserve */
@@ -317,12 +317,6 @@ export interface paths {
 export interface definitions {
   reserve: {
     /**
-     * Format: bigint
-     * @description Note:
-     * This is a Primary Key.<pk/>
-     */
-    id: number;
-    /**
      * Format: timestamp with time zone
      * @default now()
      */
@@ -339,6 +333,13 @@ export interface definitions {
      * This is a Foreign Key to `customers.lineid`.<fk table='customers' column='lineid'/>
      */
     lineid: string;
+    /**
+     * Format: uuid
+     * @description Note:
+     * This is a Primary Key.<pk/>
+     * @default extensions.uuid_generate_v4()
+     */
+    reserveid: string;
   };
   users: {
     /**
@@ -418,8 +419,6 @@ export interface parameters {
   limit: string;
   /** @description reserve */
   "body.reserve": definitions["reserve"];
-  /** Format: bigint */
-  "rowFilter.reserve.id": string;
   /** Format: timestamp with time zone */
   "rowFilter.reserve.created_at": string;
   /** Format: date */
@@ -430,6 +429,8 @@ export interface parameters {
   "rowFilter.reserve.status": string;
   /** Format: character varying */
   "rowFilter.reserve.lineid": string;
+  /** Format: uuid */
+  "rowFilter.reserve.reserveid": string;
   /** @description users */
   "body.users": definitions["users"];
   /** Format: uuid */

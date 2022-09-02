@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
 /* eslint-disable @typescript-eslint/no-explicit-any */
-const express = require("express");
+import express from "express";
 
 import { middlewareConfig } from "./client";
 import { event } from "./event";
@@ -8,13 +8,15 @@ import { event } from "./event";
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-app.get("/", (_: any, res: { sendStatus: (arg0: number) => void }) => {
+app.get("/", (_: any, res) => {
   res.sendStatus(200);
 });
 
-app.post("/webhook", middlewareConfig, (req: any, res: any) => {
+app.post("/webhook", middlewareConfig, (req, res) => {
   console.log("events-----", req.body.events);
-  Promise.all(req.body.events.map(event)).then((result) => res.json(result));
+  Promise.all(req.body.events.map(event)).then((result) => {
+    res.json(result);
+  });
 });
 
 app.listen(PORT, () => {

@@ -14,11 +14,11 @@ export const poctback = (event: any) => {
     return client.replyMessage(event.replyToken, confirmDate(event));
   } else if (poctbackData === "action=reserve&date=retry") {
     return client.replyMessage(event.replyToken, inputDate);
-  } else if (/reservation=cancel&id=.*/.test(poctbackData)) {
-    const data = poctbackData.split(/reservation=cancel&id=/);
-    const reserveId = Number(data[1]);
+  } else if (/reservation=cancel&reserveid=.*/.test(poctbackData)) {
+    const data = poctbackData.split(/reservation=cancel&reserveid=/);
+    const reserveid = data[1];
 
-    updateReservation({ id: reserveId, data: { status: "キャンセル" } }).then(() => {
+    updateReservation({ reserveid, data: { status: "キャンセル" } }).then(() => {
       return client.replyMessage(event.replyToken, {
         type: "text",
         text: "予約を取り消しました。",
