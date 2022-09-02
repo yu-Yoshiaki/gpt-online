@@ -33,7 +33,7 @@ export const fetchMyReservation = async (lineid: string) => {
             type: "postback",
             label: "キャンセルする",
             displayText: "キャンセルする",
-            data: `reservation=cancel&reserveid=${reserveid}`,
+            data: `reservation=cancel&reserveid=${reserveid}&confirm=false`,
           },
         ],
       },

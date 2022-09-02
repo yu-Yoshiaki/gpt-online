@@ -14,10 +14,30 @@ export const poctback = (event: any) => {
     return client.replyMessage(event.replyToken, confirmDate(event));
   } else if (poctbackData === "action=reserve&date=retry") {
     return client.replyMessage(event.replyToken, inputDate);
-  } else if (/reservation=cancel&reserveid=.*/.test(poctbackData)) {
-    const data = poctbackData.split(/reservation=cancel&reserveid=/);
+  } else if (/reservation=cancel&reserveid=.*&confirm=(false|true)/.test(poctbackData)) {
+    const data = poctbackData.split(/reservation=cancel&reserveid=|&confirm=/);
     const reserveid = data[1];
+    const confirm = data[2];
 
+    if (confirm === "false") {
+      return client.replyMessage(event.replyToken, {
+        type: "text",
+        text: `予約番号: ${reserveid}をキャンセルいたしますか?`,
+        quickReply: {
+          items: [
+            {
+              type: "action",
+              action: {
+                type: "postback",
+                label: "はい",
+                displayText: "はい",
+                data: `reservation=cancel&reserveid=${reserveid}&confirm=true`,
+              },
+            },
+          ],
+        },
+      });
+    }
     updateReservation({ reserveid, data: { status: "キャンセル" } }).then(() => {
       return client.replyMessage(event.replyToken, {
         type: "text",
