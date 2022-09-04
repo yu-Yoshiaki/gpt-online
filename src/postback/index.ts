@@ -1,49 +1,14 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Postback } from "@line/bot-sdk";
 import { client } from "../client";
-import { confirmDate, inputDate } from "../message/inputDate";
+import { cancelReservation } from "./cancelReservation";
 import { setMember } from "./setMember";
 import { confirmReservation, setReservation } from "./setReservation";
-import { updateReservation } from "./updateReservation";
 
 export const poctback = (event: any) => {
   const poctbackData: Postback["data"] = event.postback.data;
-  if (poctbackData === "action=reserve") {
-    return client.replyMessage(event.replyToken, confirmDate(event));
-  } else if (poctbackData === "action=reserve&date=confirm") {
-    return client.replyMessage(event.replyToken, confirmDate(event));
-  } else if (poctbackData === "action=reserve&date=retry") {
-    return client.replyMessage(event.replyToken, inputDate);
-  } else if (/reservation=cancel&reserveid=.*&confirm=(false|true)/.test(poctbackData)) {
-    const data = poctbackData.split(/reservation=cancel&reserveid=|&confirm=/);
-    const reserveid = data[1];
-    const confirm = data[2];
-
-    if (confirm === "false") {
-      return client.replyMessage(event.replyToken, {
-        type: "text",
-        text: `予約番号: ${reserveid}をキャンセルいたしますか?`,
-        quickReply: {
-          items: [
-            {
-              type: "action",
-              action: {
-                type: "postback",
-                label: "はい",
-                displayText: "はい",
-                data: `reservation=cancel&reserveid=${reserveid}&confirm=true`,
-              },
-            },
-          ],
-        },
-      });
-    }
-    updateReservation({ reserveid, data: { status: "キャンセル" } }).then(() => {
-      return client.replyMessage(event.replyToken, {
-        type: "text",
-        text: "予約を取り消しました。",
-      });
-    });
+  if (/reservation=cancel&reserveid=.*&confirm=(false|true)/.test(poctbackData)) {
+    cancelReservation(poctbackData, event.replyToken);
   } else if (
     /action=reserve&date=20[0-9]{2}-[0-9]{1,}-[0-9]{1,}&member=[0-9]{1,}&confirm=(false|true)/.test(
       poctbackData
