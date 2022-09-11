@@ -1,5 +1,6 @@
 import { Message } from "@line/bot-sdk";
 
+const uri = "https://liff.line.me/1657424528-doXMQvzK/signup";
 export const redirectSignupMessage: Message[] = [
   {
     type: "text",
@@ -15,7 +16,7 @@ export const redirectSignupMessage: Message[] = [
         {
           type: "uri",
           label: `ユーザー登録に進む`,
-          uri: "https://liff.line.me/1657424528-doXMQvzK/signup",
+          uri,
         },
       ],
     },

@@ -1,23 +1,11 @@
 import { FlexMessage, Message, TemplateMessage } from "@line/bot-sdk";
 import { supabase } from "../supabase";
-import { definitions } from "../type/supabase";
+import { definitions } from "../../type/supabase";
 import dayjs from "dayjs";
-type Data = { date: string; member: number; lineid: string; status: "予約済み" };
 
-export const setReservation = async (date: string, member: number, lineid: string) => {
-  const data: Data[] = [{ date, member, lineid, status: "予約済み" }];
-  const { data: reservation, error } = await supabase
-    .from<definitions["reserve"]>("reserve")
-    .insert(data)
-    .single();
-
-  if (error)
-    return {
-      type: "text",
-      text: error.message,
-    } as Message;
-
-  const message: FlexMessage = {
+type ConfirmOrNotMessage = (data: { reservation: definitions["reserve"] }) => FlexMessage;
+const confirmOrNotMessage: ConfirmOrNotMessage = (data) => {
+  return {
     type: "flex",
     altText: "this is a confirm template",
     contents: {
@@ -59,7 +47,7 @@ export const setReservation = async (date: string, member: number, lineid: strin
                   },
                   {
                     type: "text",
-                    text: reservation.reserveid,
+                    text: data.reservation.reserveid,
                     wrap: true,
                     color: "#666666",
                     size: "sm",
@@ -81,7 +69,7 @@ export const setReservation = async (date: string, member: number, lineid: strin
                   },
                   {
                     type: "text",
-                    text: dayjs(reservation.date).format("M月D日"),
+                    text: dayjs(data.reservation.date).format("M月D日"),
                     wrap: true,
                     color: "#666666",
                     size: "sm",
@@ -103,7 +91,7 @@ export const setReservation = async (date: string, member: number, lineid: strin
                   },
                   {
                     type: "text",
-                    text: `${reservation.member}名`,
+                    text: `${data.reservation.member}名`,
                     wrap: true,
                     color: "#666666",
                     size: "sm",
@@ -150,11 +138,11 @@ export const setReservation = async (date: string, member: number, lineid: strin
       },
     },
   };
-  return message;
 };
 
-export const confirmReservation = (date: string, member: number) => {
-  const message: FlexMessage = {
+type ConfirmReservation = (data: { date: string; member: number }) => FlexMessage;
+export const confirmReservation: ConfirmReservation = (data) => {
+  return {
     type: "flex",
     altText: "this is a confirm template",
     contents: {
@@ -189,7 +177,7 @@ export const confirmReservation = (date: string, member: number) => {
                   },
                   {
                     type: "text",
-                    text: dayjs(date).format("M月D日"),
+                    text: dayjs(data.date).format("M月D日"),
                     wrap: true,
                     color: "#666666",
                     size: "sm",
@@ -211,7 +199,7 @@ export const confirmReservation = (date: string, member: number) => {
                   },
                   {
                     type: "text",
-                    text: `${member}名`,
+                    text: `${data.member}名`,
                     wrap: true,
                     color: "#666666",
                     size: "sm",
@@ -238,7 +226,7 @@ export const confirmReservation = (date: string, member: number) => {
             action: {
               type: "postback",
               label: "確定",
-              data: `action=reserve&date=${date}&member=${member}&confirm=true`,
+              data: `action=reserve&date=${data.date}&member=${data.member}&confirm=true`,
               displayText: `予約を確定する`,
             },
           },
@@ -247,5 +235,29 @@ export const confirmReservation = (date: string, member: number) => {
       },
     },
   };
-  return message;
+};
+
+export const createReservation = async (postbackData: string, lineid: string) => {
+  const data = postbackData.split(/action=reserve&date=|&member=|&confirm=/);
+  const date = data[1];
+  const member = Number(data[2]);
+  const confirm = data[3] as "true" | "false";
+
+  if (confirm === "false") {
+    return confirmReservation({ date, member });
+  }
+
+  const postData = [{ date, member, lineid, status: "予約済み" }];
+  const { data: reservation, error } = await supabase
+    .from<definitions["reserve"]>("reserve")
+    .insert(postData)
+    .single();
+
+  if (error)
+    return {
+      type: "text",
+      text: error.message,
+    } as Message;
+
+  return confirmOrNotMessage({ reservation });
 };

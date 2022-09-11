@@ -1,6 +1,6 @@
 import { FlexMessage, Message, TemplateMessage, TextMessage } from "@line/bot-sdk";
-import { supabase } from "./supabase";
-import { definitions } from "./type/supabase";
+import { supabase } from "../supabase";
+import { definitions } from "../../type/supabase";
 import dayjs from "dayjs";
 
 export const fetchMyReservation = async (lineid: string) => {
@@ -12,16 +12,20 @@ export const fetchMyReservation = async (lineid: string) => {
     .limit(3);
 
   if (error)
-    return {
-      type: "text",
-      text: error.message,
-    } as TextMessage;
+    return [
+      {
+        type: "text",
+        text: error.message,
+      },
+    ] as TextMessage[];
 
   if (reserve.length === 0)
-    return {
-      type: "text",
-      text: "予約情報はありません。",
-    } as TextMessage;
+    return [
+      {
+        type: "text",
+        text: "予約情報はありません。",
+      },
+    ] as TextMessage[];
 
   const message: Message[] = [
     { type: "text", text: "直近の予約の3件表示しています。" },
@@ -136,7 +140,7 @@ export const fetchMyReservation = async (lineid: string) => {
                     type: "postback",
                     label: "キャンセルする",
                     displayText: "キャンセルする",
-                    data: `reservation=cancel&reserveid=${reserveid}&confirm=false`,
+                    data: `action=cancel&reserveid=${reserveid}&confirm=false`,
                   },
                 },
               ],
