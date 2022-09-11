@@ -1,4 +1,4 @@
-import { FlexMessage, Message, TemplateMessage, TextMessage } from "@line/bot-sdk";
+import { Message, TextMessage } from "@line/bot-sdk";
 import { supabase } from "../supabase";
 import { definitions } from "../../type/supabase";
 import dayjs from "dayjs";
