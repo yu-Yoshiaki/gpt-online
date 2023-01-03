@@ -1,66 +1,36 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { client } from "../client";
-import { fetchMyReservation } from "../reservation/fetchMyReservation";
-import { fetchUserInfo } from "../fetchUserInfo";
-import { fetchVacancy } from "../reservation/fetchVacancy";
-import { redirectSignupMessage } from "./redirectSignupMessage";
-import { Message, TextMessage } from "@line/bot-sdk";
-import { supabase } from "../supabase";
-import { definitions } from "../../type/supabase";
+import { Message } from "@line/bot-sdk";
+import { openai } from "../openai";
 
 export const messageAction = async (event: any) => {
-  const eventText = event.message.text;
-  const messageList: Message[] = [];
+  const response = await openai.createCompletion({
+    model: "text-davinci-003",
+    prompt: event.message.text,
+    max_tokens: 200,
+    temperature: 0,
+  });
 
-  if (eventText === "予約" || /予約(する|したい|申し込[みむ])/.test(eventText)) {
-    const data = await fetchUserInfo(event.source.userId);
-    if (!data) {
-      messageList.push(...redirectSignupMessage);
-    } else {
-      messageList.push(fetchVacancy());
-    }
-  }
+  const text: Message = {
+    type: "text",
+    text: response.data.choices[0].text || "",
+  };
 
-  if (eventText === "予約確認") {
-    const data = await fetchMyReservation(event.source.userId);
-    messageList.push(...data);
-  }
-  if (eventText === "テスト") {
-    const message: TextMessage = {
-      type: "text",
-      text: "テスト",
-      quickReply: {
-        items: [
-          {
-            type: "action",
-            action: {
-              type: "postback",
-              displayText: "postbackテスト",
-              label: "postback_test",
-              data: "action=cancel",
-            },
-          },
-        ],
-      },
-    };
-    messageList.push(message);
-  }
+  return client.replyMessage(event.replyToken, text);
 
-  if (messageList.length === 0) {
-    await supabase.from<definitions["talks"]>("talks").upsert({
-      istype: event.type,
-      messagetype: event.message.type,
-      messageid: event.message.id,
-      messagetext: event.message.text,
-      ismode: event.mode,
-      istimestamp: event.timestamp,
-      replytoken: event.replyToken,
-      webhookeventid: event.webhookEventId,
-      isredelivery: event.deliveryContext.isRedelivery,
-      userId: event.source.userId,
-    });
-    return;
-  }
+  // const response = await openai.createImage({
+  //   prompt: eventText,
+  //   n: 1,
+  //   size: "512x512",
+  // });
 
-  return client.replyMessage(event.replyToken, messageList);
+  // const text: Message = {
+  //   type: "image",
+  //   originalContentUrl: response.data.data[0].url || "",
+  //   previewImageUrl: response.data.data[0].url || "",
+  // };
+
+  // console.log("----", response);
+
+  // return client.replyMessage(event.replyToken, text);
 };

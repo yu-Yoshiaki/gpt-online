@@ -14,7 +14,7 @@ app.get("/", (_: any, res: any) => {
 });
 
 app.post("/webhook", middlewareConfig, (req: any, res: any) => {
-  console.log("events-----", req.body.events);
+  console.log("events: ", req.body.events);
 
   Promise.all(req.body.events.map(event)).then((result) => {
     res.json(result);
