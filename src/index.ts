@@ -9,6 +9,8 @@ import { event } from "./lib/event";
 const app = express();
 const PORT = process.env.PORT || 3000;
 
+console.log("----");
+
 app.get("/", (_: any, res: any) => {
   res.sendStatus(200);
 });
